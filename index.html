@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 3em;
+        }
+
+        button {
+            margin-left: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="first-table">
+        <tr>
+            <td id=""></td>
+            <td id=""></td>
+            <td id=""></td>
+        </tr>
+        <tr>
+            <td id=""></td>
+            <td id=""></td>
+            <td id=""></td>
+        </tr>
+        <tr>
+            <td id=""></td>
+            <td id=""></td>
+            <td id=""></td>
+        </tr>
+    </table>
+    <br><br><br><br><br>
+    <button id="btn1" class="favorite styled" type="button">
+        Add to favorites
+    </button>
+    <p>주사위 <span id="random">0</span></p>
+    <br><br><br><br><br><br>
+    <table id="second-table">
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+        </tr>
+    </table>
+
+
+    <script>
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        document.getElementById("btn1").addEventListener('click', RandomGenerate);
+
+        function RandomGenerate() {
+            //  버튼을 눌렀을때 나온 주사위 눈을 홈페이지에 표현하고싶다. 
+            //(getRandomInt(6) + 1);
+
+            document.getElementById("random").innerHTML = (getRandomInt(6) + 1);
+        }
+
+        window.onload = rowClicked;
+        function rowClicked() {
+            let table = document.getElementById("first-table");
+            let rowList = table.rows; // *1)rows collection
+            console.log(table);
+            console.log(rowList);
+
+            for ( let i = 0; i < rowList.length; i++) {
+
+                let row = rowList[i];
+                let tdsNum = row.childElementCount;// 자식요소 갯수 구하기.
+
+                for ( let j = 0; j < tdsNum; j++){
+
+                    let cell = row.cells[j];
+                    cell.onclick = function(){
+                        console.log(i,j)
+                        console.log(cell);
+                        put_dice_in_col(j);    
+                    }                                       
+                }
+            }
+
+        }
+        
+        function put_dice_in_col(j) {
+            
+            let dice_num = document.getElementById("random").innerHTML;
+
+            
+            if (dice_num!=0 ) {    
+                let col = get_col(j);
+                //console.log(col);
+                let cell = col[2];
+                cell.innerHTML = dice_num;
+
+                // document.getElementById("put").innerHTML = dice_num;
+            }  
+        }    
+        function get_cell(i,j) {
+            let table = document.getElementById("first-table");
+            let rowList = table.rows;
+            let row = rowList[i];
+            let cell= row.cells[j];
+            return cell;
+            
+        }
+        function get_col(j) {
+            let col = [];
+            col.push(get_cell(0,j));
+            col.push(get_cell(1,j));
+            col.push(get_cell(2,j));
+
+
+            return col;
+        }
+    </script>
+
+</body>
+
+</html>
+
