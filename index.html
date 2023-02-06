@@ -44,7 +44,7 @@
     <button id="btn1" class="favorite styled" type="button">
         Add to favorites
     </button>
-    <p>주사위 <span id="random">0</span></p>
+    <p id="@@@">주사위 <span id="random">0</span></p>
     <br><br><br><br><br><br>
     <table id="second-table">
         <tr>
@@ -77,6 +77,7 @@
             //(getRandomInt(6) + 1);
 
             document.getElementById("random").innerHTML = (getRandomInt(6) + 1);
+            document.getElementById("btn1").disabled = true;
         }
 
         window.onload = rowClicked;
@@ -104,20 +105,7 @@
 
         }
         
-        function put_dice_in_col(j) {
-            
-            let dice_num = document.getElementById("random").innerHTML;
-
-            
-            if (dice_num!=0 ) {    
-                let col = get_col(j);
-                //console.log(col);
-                let cell = col[2];
-                cell.innerHTML = dice_num;
-
-                // document.getElementById("put").innerHTML = dice_num;
-            }  
-        }    
+        
         function get_cell(i,j) {
             let table = document.getElementById("first-table");
             let rowList = table.rows;
@@ -131,13 +119,46 @@
             col.push(get_cell(0,j));
             col.push(get_cell(1,j));
             col.push(get_cell(2,j));
-
+            console.log(col);
 
             return col;
         }
+        function put_dice_in_col(j) {
+            
+            let dice_num = document.getElementById("random").innerHTML;
+
+            
+            if (dice_num!=0 ) {    
+                let col = get_col(j);
+                if ( col[2].innerHTML ==''){
+                    col[2].innerHTML=dice_num; 
+                    document.getElementById("random").innerHTML="0"; 
+                    document.getElementById("btn1").disabled = false;
+                }   
+                else {
+                    if ( col[1].innerHTML ==''){
+                        col[1].innerHTML=dice_num;
+                        document.getElementById("random").innerHTML="0";
+                        document.getElementById("btn1").disabled = false;
+                    }
+                    else {
+                        if ( col[0].innerHTML == ''){
+                            col[0].innerHTML=dice_num;
+                            document.getElementById("random").innerHTML="0";
+                            document.getElementById("btn1").disabled = false;
+                        }   
+                        else {
+                            alert("Table");
+                           
+                        }
+                    }   
+                }
+                // document.getElementById("put").innerHTML = dice_num;
+            }
+            
+        }           
     </script>
 
 </body>
 
 </html>
-
