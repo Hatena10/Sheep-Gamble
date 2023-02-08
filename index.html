@@ -42,25 +42,26 @@
     </table>
     <br><br><br><br><br>
     <button id="btn1" class="favorite styled" type="button">
+
         Add to favorites
     </button>
     <p id="@@@">주사위 <span id="random">0</span></p>
     <br><br><br><br><br><br>
     <table id="second-table">
         <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
 
@@ -80,8 +81,13 @@
             document.getElementById("btn1").disabled = true;
         }
 
-        window.onload = rowClicked;
-        function rowClicked() {
+        function integrated_rowClicked(){
+            rowClicked_1P();
+            rowClicked_2P();
+        }
+        window.onload = integrated_rowClicked;
+        
+        function rowClicked_1P() {
             let table = document.getElementById("first-table");
             let rowList = table.rows; // *1)rows collection
             console.log(table);
@@ -98,7 +104,39 @@
                     cell.onclick = function(){
                         console.log(i,j)
                         console.log(cell);
-                        put_dice_in_col(j);    
+                        if (turn==1) {
+                            put_dice_in_col(j); 
+                        }                             
+                    }                                       
+                }
+            }
+
+        }
+        /*window.onload = () => {
+            rowClicked_1P();
+            rowClicked_2P();
+        }*/
+        function rowClicked_2P() {
+            let table = document.getElementById("second-table");
+            let rowList = table.rows; // *1)rows collection
+            console.log(table);
+            console.log(rowList);
+
+            for ( let i = 0; i < rowList.length; i++) {
+
+                let row = rowList[i];
+                let tdsNum = row.childElementCount;// 자식요소 갯수 구하기.
+
+                for ( let j = 0; j < tdsNum; j++){
+
+                    let cell = row.cells[j];
+                    cell.onclick = function(){
+                        console.log(i,j)
+                        console.log(cell);
+                        if (turn==2) {
+                            put_dice_in_col(j); 
+                        }                       
+                           
                     }                                       
                 }
             }
@@ -107,7 +145,14 @@
         
         
         function get_cell(i,j) {
-            let table = document.getElementById("first-table");
+            let table = 0;
+            if (turn ==1) {
+                table = document.getElementById("first-table");
+                
+            }
+            else {
+                table = document.getElementById("second-table");
+            }
             let rowList = table.rows;
             let row = rowList[i];
             let cell= row.cells[j];
@@ -126,29 +171,37 @@
         function put_dice_in_col(j) {
             
             let dice_num = document.getElementById("random").innerHTML;
-
+            let index = [2,1,0];
             
             if (dice_num!=0 ) {    
                 let col = get_col(j);
-                if ( col[2].innerHTML ==''){
-                    col[2].innerHTML=dice_num; 
+                if ( turn== 2){
+                    index.reverse();
+                }
+                
+                
+                if ( col[index[0]].innerHTML ==''){
+                    col[index[0]].innerHTML=dice_num; 
                     document.getElementById("random").innerHTML="0"; 
                     document.getElementById("btn1").disabled = false;
+                    change_the_turn();
                 }   
                 else {
-                    if ( col[1].innerHTML ==''){
-                        col[1].innerHTML=dice_num;
+                    if ( col[index[1]].innerHTML ==''){
+                        col[index[1]].innerHTML=dice_num;
                         document.getElementById("random").innerHTML="0";
                         document.getElementById("btn1").disabled = false;
+                        change_the_turn();
                     }
                     else {
-                        if ( col[0].innerHTML == ''){
-                            col[0].innerHTML=dice_num;
+                        if ( col[index[2]].innerHTML == ''){
+                            col[index[2]].innerHTML=dice_num;
                             document.getElementById("random").innerHTML="0";
                             document.getElementById("btn1").disabled = false;
+                            change_the_turn();
                         }   
                         else {
-                            alert("Table");
+                            alert("Try other column!");
                            
                         }
                     }   
@@ -156,7 +209,19 @@
                 // document.getElementById("put").innerHTML = dice_num;
             }
             
-        }           
+        } 
+       
+        let turn = 1;   
+        function change_the_turn() {
+            if (turn==1){
+                turn+=1;
+            }   
+            else {
+                turn-=1;
+            }
+        }
+            
+
     </script>
 
 </body>
