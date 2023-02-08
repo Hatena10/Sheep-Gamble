@@ -25,19 +25,19 @@
 <body>
     <table id="first-table">
         <tr>
-            <td id=""></td>
-            <td id=""></td>
-            <td id=""></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td id=""></td>
-            <td id=""></td>
-            <td id=""></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td id=""></td>
-            <td id=""></td>
-            <td id=""></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
     <br><br><br><br><br>
@@ -45,7 +45,7 @@
 
         Add to favorites
     </button>
-    <p id="@@@">주사위 <span id="random">0</span></p>
+    <p>주사위 <span id="random">0</span></p>
     <br><br><br><br><br><br>
     <table id="second-table">
         <tr>
@@ -221,7 +221,54 @@
             }
         }
             
+        function calculate_score(table) {
+            let score = 0;
+            for (let j = 0; j<3; j++){
+                let col = get_col_from_table(table,j);  //parseIntcol[0].innerHTML
+                if (col[0].innerHTML==col[1].innerHTML&&col[0].innerHTML==col[2].innerHTML){
+                   score += 9*smart_parseInt(col[0].innerHTML);
+                }   
+                else if (col[0].innerHTML==col[1].innerHTML){
+                    score += 4*smart_parseInt(col[0].innerHTML)+smart_parseInt(col[2].innerHTML);
+                }
+                else if (col[1].innerHTML==col[2].innerHTML){
+                    score += 4*smart_parseInt(col[1].innerHTML)+smart_parseInt(col[0].innerHTML);
+                }
+                else if (col[0].innerHTML==col[2].innerHTML){
+                    score += 4*smart_parseInt(col[0].innerHTML)+smart_parseInt(col[1].innerHTML);
+                }
+                else {
+                    score += smart_parseInt(col[0].innerHTML)+smart_parseInt(col[1].innerHTML)+smart_parseInt(col[2].innerHTML);
+                }
+            }   
 
+            return score;
+            
+        }
+        function smart_parseInt(target) {
+            if (target == ''){
+                target= 0;
+            }
+            else {
+                target=parseInt(target);
+            }
+            return target;
+        }
+        function get_cell_from_table(table,i,j){
+        
+            let rowList = table.rows;
+            let row = rowList[i];
+            let cell= row.cells[j];
+            return cell;
+        }
+        function get_col_from_table(table,j) {
+            let col = [];
+            col.push(get_cell_from_table(table,0,j));
+            col.push(get_cell_from_table(table,1,j));
+            col.push(get_cell_from_table(table,2,j));
+            
+            return col;
+        }    
     </script>
 
 </body>
