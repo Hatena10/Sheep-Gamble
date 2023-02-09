@@ -1,0 +1,39 @@
+추가로 구현해야할 점
+
+1. 상대방 column에 중복되는 숫자가 놓여질 경우,
+    그 숫자를 제거한다 ; 이 행위를 '공격'으로 정의한다.
+	col[i].innerHTML => ''
+
+1-1.	선택지-
+	1.그 과정에서 주사위가 사라졌을떄, 그냥 그자리에서 사라지게할것인가?
+	2.사라진 후 다시 윗칸부터 채우게 할것인가?
+ex( col[0],col[1],col[2]에 2,4,2가 있고 상대방이 4를 놓아 공격했을 경우)
+	1번은 2,'', 2로 구현이되지만 
+	2번은 2,2,'' 로 재배열이 일어난다.
+
+2. 실시간으로 주사위를 기입할때마다 현재 점수를 표시해주기
+
+2-1. 각 column마다 점수를 표시해주고 table 오른쪽에 합산 점수를 표시할것인가?
+2-2. table 오른쪽에 합산점수만 표시해줄것인가?
+
+3.	게임종료 선언
+	
+	1p 혹은 2p 한명이라도 모든 셀을 숫자로 기입했을 경우,
+	모든 루프를 break하고 즉시 게임종료를 한다.
+	
+
+
+-------------------------------------------------------------------
+순서도를 그렸을때, 1번 '공격'과정이 일어나는건
+	put_dice_in_col(j)함수가 실행되고 
+	그 과정에서 col[index[i]]에 dice_num이 기입된 후이며,
+	주사위 값을 초기화해주는 document.getElementById("random").innerHTML="0"이 
+	실행되기 전
+	if turn==1;	
+		for (let i = 0; i<3,i++)
+		{	if (document.getElementById("first-table")col[index[i]]==
+		document.getElementById("second-table")col[index[j]])
+		{	document.getElementById("second-table")col[index[j]].innerHTML=''
+		}
+		
+	
