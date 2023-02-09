@@ -29,11 +29,20 @@ ex( col[0],col[1],col[2]에 2,4,2가 있고 상대방이 4를 놓아 공격했�
 	그 과정에서 col[index[i]]에 dice_num이 기입된 후이며,
 	주사위 값을 초기화해주는 document.getElementById("random").innerHTML="0"이 
 	실행되기 전
-	if turn==1;	
-		for (let i = 0; i<3,i++)
-		{	if (document.getElementById("first-table")col[index[i]]==
-		document.getElementById("second-table")col[index[j]])
-		{	document.getElementById("second-table")col[index[j]].innerHTML=''
-		}
+
+	위 함수가 할것은? 1) 상대방의 주사위를 공격
+>> 어떤 주사위? 내가 놓은 열에 있는 상대방의 겹치는 숫자
+
+	
 		
+
+
+
+
+
+
+document.getElementById("1p-col-sum").innerHTML = calculate_col_score(document.getElementById("first-table",0))
+
+
+
 	

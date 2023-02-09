@@ -19,6 +19,14 @@
         button {
             margin-left: 100px;
         }
+        h3 {
+            
+            padding-left: 40px;
+        }
+        h4 {
+            padding-left: 50px;
+            font-size:20px
+        }
     </style>
 </head>
 
@@ -40,13 +48,17 @@
             <td></td>
         </tr>
     </table>
-    <br><br><br><br><br>
+    <br>
+    <h3 id="1p-col-sum">0 0 0</h3>
+    <br><br><br>
     <button id="btn1" class="favorite styled" type="button">
 
-        Add to favorites
+        Test Your Luck
     </button>
     <p>주사위 <span id="random">0</span></p>
-    <br><br><br><br><br><br>
+    <br><br><br><br>
+    <h4 id="2p-col-sum">0 0 0</h4>
+    <br><br>
     <table id="second-table">
         <tr>
             <td></td>
@@ -181,7 +193,8 @@
                 
                 
                 if ( col[index[0]].innerHTML ==''){
-                    col[index[0]].innerHTML=dice_num; 
+                    col[index[0]].innerHTML=dice_num;
+                    attack_the_dice(dice_num,j);
                     document.getElementById("random").innerHTML="0"; 
                     document.getElementById("btn1").disabled = false;
                     change_the_turn();
@@ -189,6 +202,7 @@
                 else {
                     if ( col[index[1]].innerHTML ==''){
                         col[index[1]].innerHTML=dice_num;
+                        attack_the_dice(dice_num,j);
                         document.getElementById("random").innerHTML="0";
                         document.getElementById("btn1").disabled = false;
                         change_the_turn();
@@ -196,6 +210,7 @@
                     else {
                         if ( col[index[2]].innerHTML == ''){
                             col[index[2]].innerHTML=dice_num;
+                            attack_the_dice(dice_num,j);
                             document.getElementById("random").innerHTML="0";
                             document.getElementById("btn1").disabled = false;
                             change_the_turn();
@@ -219,6 +234,8 @@
             else {
                 turn-=1;
             }
+            document.getElementById("1p-col-sum").innerHTML = calculate_col_score(document.getElementById("first-table"),0)+''+calculate_col_score(document.getElementById("first-table"),1)+''+calculate_col_score(document.getElementById("first-table"),2)
+            document.getElementById("2p-col-sum").innerHTML = calculate_col_score(document.getElementById("second-table"),0)+''+calculate_col_score(document.getElementById("second-table"),1)+''+calculate_col_score(document.getElementById("second-table"),2)
         }
             
         function calculate_score(table) {
@@ -268,7 +285,51 @@
             col.push(get_cell_from_table(table,2,j));
             
             return col;
-        }    
+        }   
+        
+        function attack_the_dice(dice_num,j){
+            let col = [];
+            //get_col_from_table(table,j);
+            let table;
+            if (turn== 1){
+                table=document.getElementById("second-table")   
+            }
+            else {
+                table=document.getElementById("first-table")
+            }
+            
+            col = get_col_from_table(table,j);
+            for(let i=0 ;i<3;i++){
+                if(col[i].innerHTML==dice_num){
+                    col[i].innerHTML='';
+                }
+            }
+        }
+        function calculate_col_score(table,j) {
+            let score = 0;
+            
+                let col = get_col_from_table(table,j);  //parseIntcol[0].innerHTML
+                if (col[0].innerHTML==col[1].innerHTML&&col[0].innerHTML==col[2].innerHTML){
+                   score += 9*smart_parseInt(col[0].innerHTML);
+                }   
+                else if (col[0].innerHTML==col[1].innerHTML){
+                    score += 4*smart_parseInt(col[0].innerHTML)+smart_parseInt(col[2].innerHTML);
+                }
+                else if (col[1].innerHTML==col[2].innerHTML){
+                    score += 4*smart_parseInt(col[1].innerHTML)+smart_parseInt(col[0].innerHTML);
+                }
+                else if (col[0].innerHTML==col[2].innerHTML){
+                    score += 4*smart_parseInt(col[0].innerHTML)+smart_parseInt(col[1].innerHTML);
+                }
+                else {
+                    score += smart_parseInt(col[0].innerHTML)+smart_parseInt(col[1].innerHTML)+smart_parseInt(col[2].innerHTML);
+                }
+              
+
+            return score; 
+        }                  
+       
+    // 한 열의 어느 cell에 숫자가 기입됐을때, 상대방의 같은 열에 있는 같은 숫자를 파괴한다.
     </script>
 
 </body>
