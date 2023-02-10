@@ -2,36 +2,34 @@
 <html>
 
 <head>
-
+    <meta charset="UTF-8">
+    
     <style>
-        table {
-            border-collapse: collapse;
-        }
-
-        td {
+        table.border td{
             width: 100px;
             height: 100px;
             border: 1px solid black;
             text-align: center;
             font-size: 3em;
+            
+        }
+        table.borderless td{
+            width: 100px;
+            height: 100px;
+            border: none;
+            text-align: center;
+            font-size: 3em;
+            color: #f00
         }
 
         button {
             margin-left: 100px;
         }
-        h3 {
-            
-            padding-left: 40px;
-        }
-        h4 {
-            padding-left: 50px;
-            font-size:20px
-        }
     </style>
 </head>
 
 <body>
-    <table id="first-table">
+    <table id="first-table" class="border">
         <tr>
             <td></td>
             <td></td>
@@ -48,18 +46,29 @@
             <td></td>
         </tr>
     </table>
+    <table id="first-table-score-box" class="borderless">
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    </table>
     <br>
-    <h3 id="1p-col-sum">0 0 0</h3>
     <br><br><br>
     <button id="btn1" class="favorite styled" type="button">
 
-        Test Your Luck
+        Roll The Dice!
     </button>
     <p>주사위 <span id="random">0</span></p>
-    <br><br><br><br>
-    <h4 id="2p-col-sum">0 0 0</h4>
-    <br><br>
-    <table id="second-table">
+    <br><br><br><br><br><br>
+    <table id="second-table-score-box" class="borderless">
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    </table>
+    <table id="second-table" class="border">
         <tr>
             <td></td>
             <td></td>
@@ -234,8 +243,36 @@
             else {
                 turn-=1;
             }
-            document.getElementById("1p-col-sum").innerHTML = calculate_col_score(document.getElementById("first-table"),0)+''+calculate_col_score(document.getElementById("first-table"),1)+''+calculate_col_score(document.getElementById("first-table"),2)
-            document.getElementById("2p-col-sum").innerHTML = calculate_col_score(document.getElementById("second-table"),0)+''+calculate_col_score(document.getElementById("second-table"),1)+''+calculate_col_score(document.getElementById("second-table"),2)
+            let table = document.getElementById("second-table-score-box");
+            let row = table.rows[0];
+            let row_array = row.cells;  
+            for (let j=0;j<3;j++){
+                let cell = row_array[j];
+                cell.innerHTML=calculate_col_score(document.getElementById("second-table"),j);
+            }
+            table = document.getElementById("first-table-score-box");
+            row = table.rows[0];
+            row_array = row.cells;  
+            for (let j=0;j<3;j++){
+                let cell = row_array[j];
+                cell.innerHTML=calculate_col_score(document.getElementById("first-table"),j);
+            }
+            if  (is_table_full(document.getElementById("first-table"))
+                ||is_table_full(document.getElementById("second-table"))){
+                document.getElementById("btn1").disabled = true;
+                if (calculate_score(document.getElementById("first-table"))>document.getElementById("second-table")){
+                    // Winner is Player 1! Cong!    
+                }
+                else if (calculate_score(document.getElementById("first-table"))<document.getElementById("second-table")){
+                    // Winner is Player 2! Cong!
+                }
+                else {
+                    //Draw
+                }
+            }
+            
+
+                   
         }
             
         function calculate_score(table) {
@@ -328,7 +365,18 @@
 
             return score; 
         }                  
-       
+        function is_table_full(table){
+            for (let i=0;i<3;i++){
+                for (let j=0;j<3;j++){
+                    let cell = get_cell_from_table(table,i,j);
+                    if (cell.innerHTML==""){
+                        return false;
+                    }
+                    
+                }
+            }
+            return true;
+        }
     // 한 열의 어느 cell에 숫자가 기입됐을때, 상대방의 같은 열에 있는 같은 숫자를 파괴한다.
     </script>
 
